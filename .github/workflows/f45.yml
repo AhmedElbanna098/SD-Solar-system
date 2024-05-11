@@ -1,0 +1,8 @@
+name: F45WF
+on: push
+jobs:
+  F45:
+    runs-on: ubuntu-latest
+    steps:
+    - name: print me
+      run: echo 'ahmed'
