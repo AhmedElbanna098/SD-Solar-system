@@ -1,8 +1,5 @@
 name: Print README
-on:
-  Push:
-    branches:
-      -main
+on: push  
 jobs:
   print-readme:
     runs-on: ubuntu-latest
