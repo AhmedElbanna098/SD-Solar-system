@@ -52,7 +52,7 @@ jobs:
         with:
           name: coverage-reports
           path: coverage
-          # retention-day: 5
+          retention-day: 10
 
   download-reports:
     name: Download coverage reports
@@ -67,7 +67,7 @@ jobs:
 
   docker:
     name: containerization
-    needs: [unit-testing, code-coverage,download-reports]
+    needs: [unit-testing, code-coverage]
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
