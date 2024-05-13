@@ -2,12 +2,10 @@ name: solar system workflows
 on: 
   push:
     branches:
-        - main
-        - 'feature/*'
+      - main
+      - 'feature/*'
 env: 
-    MONGO_URI: mongodb+srv://supercluster.d83jj.mongodb.net/superData
-    MONGO_USERNAME: ${{vars.MONGO_USERNAME}}
-    MONGO_PASSWORD: ${{secrets.MONGO_PASSWORD}}
+  MONGO_URI: mongodb+srv://supercluster.d83jj.mongodb.net/superData
 jobs: 
   unit-testing:
     name: unit testing
@@ -19,6 +17,9 @@ jobs:
           operating_system: macos-latest
 
     runs-on: ${{ matrix.operating_system }}
+    env: 
+      MONGO_USERNAME: ${{ vars.MONGO_USERNAME }}
+      MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
     steps:
       - name: checkout code
         uses: actions/checkout@v4
