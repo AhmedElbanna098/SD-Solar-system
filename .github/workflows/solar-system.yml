@@ -52,7 +52,7 @@ jobs:
         with:
           name: coverage-reports
           path: coverage
-          retention-day: 10
+          retention-day: 5
 
   download-reports:
     name: Download coverage reports
@@ -63,7 +63,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: coverage-reports
-          path: coverage-reports
+          path: coverage
 
   docker:
     name: containerization
