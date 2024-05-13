@@ -1,43 +1,43 @@
-name: solar system workflows
-on: 
-  push:
-    branches:
-      - main
-      - 'feature/*'
-env: 
-  MONGO_URI: mongodb+srv://supercluster.d83jj.mongodb.net/superData
-jobs: 
-  unit-testing:
-    name: unit testing
-    strategy:
-      matrix: 
-        nodejs_version: [18,19,20]
-        operating_system: [ubuntu-latest, macos-latest]
-        exclude: 
-          - nodejs_version: 19
-            operating_system: macos-latest
+# name: solar system workflows
+# on: 
+#   push:
+#     branches:
+#       - main
+#       - 'feature/*'
+# env: 
+#   MONGO_URI: mongodb+srv://supercluster.d83jj.mongodb.net/superData
+# jobs: 
+#   unit-testing:
+#     name: unit testing
+#     strategy:
+#       matrix: 
+#         nodejs_version: [18,19,20]
+#         operating_system: [ubuntu-latest, macos-latest]
+#         exclude: 
+#           - nodejs_version: 19
+#             operating_system: macos-latest
 
-    runs-on: ${{ matrix.operating_system }}
-    env: 
-      MONGO_USERNAME: ${{ vars.MONGO_USERNAME }}
-      MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
-    steps:
-      - name: checkout code
-        uses: actions/checkout@v4
+#     runs-on: ${{ matrix.operating_system }}
+#     env: 
+#       MONGO_USERNAME: ${{ vars.MONGO_USERNAME }}
+#       MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+#     steps:
+#       - name: checkout code
+#         uses: actions/checkout@v4
 
-      - name: set up nodejs ${{matrix.nodejs_version}}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{matrix.nodejs_version}}
+#       - name: set up nodejs ${{matrix.nodejs_version}}
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: ${{matrix.nodejs_version}}
 
-      - name: install depend.
-        run: npm install
+#       - name: install depend.
+#         run: npm install
         
-      - name: unit test
-        run: npm test
+#       - name: unit test
+#         run: npm test
       
-      - name: test results
-        uses: actions/upload-artifact@v2
-        with: 
-          name: mocha-test-result
-          path: test-results.xml
+#       - name: test results
+#         uses: actions/upload-artifact@v2
+#         with: 
+#           name: mocha-test-result
+#           path: test-results.xml

@@ -1,65 +1,75 @@
-# name: solar system workflows
-# on: 
-#   push:
-#     branches:
-#         - main
-#         - 'feature/*'
-# env: 
-#     MONGO_URI: mongodb+srv://supercluster.d83jj.mongodb.net/superData
-#     MONGO_USERNAME: ${{vars.MONGO_USERNAME}}
-#     MONGO_PASSWORD: ${{secrets.MONGO_PASSWORD}}
-# jobs: 
-#   unit-testing:
-#     name: unit testing
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: checkout code
-#         uses: actions/checkout@v4
+name: solar system workflows
+on: 
+  push:
+    branches:
+        - main
+        - 'feature/*'
+env: 
+    MONGO_URI: mongodb+srv://supercluster.d83jj.mongodb.net/superData
+    MONGO_USERNAME: ${{vars.MONGO_USERNAME}}
+    MONGO_PASSWORD: ${{secrets.MONGO_PASSWORD}}
+jobs: 
+  unit-testing:
+    name: unit testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
 
-#       - name: set up nodejs v18
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: 18
+      - name: set up nodejs v18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-#       - name: install depend.
-#         run: npm install
+      - name: install depend.
+        run: npm install
         
-#       - name: unit test
-#         run: npm test
+      - name: unit test
+        run: npm test
 
-#   code-coverage:
-#     name: code coverage
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: chechout code
-#         uses: actions/checkout@v4
+  code-coverage:
+    name: code coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: chechout code
+        uses: actions/checkout@v4
       
-#       - name: setup nodejs
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: 18
+      - name: setup nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
       
-#       - name: install depend.
-#         run: npm install
+      - name: install depend.
+        run: npm install
       
-#       - name: Run code coverage
-#         run: | 
-#           npm run coverage || true
+      - name: Run code coverage
+        run: | 
+          npm run coverage || true
       
-#       - name: upload coverage reports
-#         if: success()
-#         uses: actions/upload-artifact@v2
-#         with:
-#           name: coverage-reports
-#           path: coverage
+      - name: upload coverage reports
+        if: success()
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-reports
+          path: coverage
+          retention-day: 5
 
-#   download-reports:
-#     name: Download coverage reports
-#     needs: code-coverage
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: download reports
-#         uses: actions/download-artifact@v4
-#         with:
-#           name: coverage-reports
-#           path: coverage-reports
+  download-reports:
+    name: Download coverage reports
+    needs: code-coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: download reports
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-reports
+          path: coverage-reports
+
+  docker:
+    name: containerization
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
