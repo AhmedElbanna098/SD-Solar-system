@@ -52,7 +52,7 @@ jobs:
         with:
           name: coverage-reports
           path: coverage
-          retention-day: 5
+          # retention-day: 5
 
   download-reports:
     name: Download coverage reports
