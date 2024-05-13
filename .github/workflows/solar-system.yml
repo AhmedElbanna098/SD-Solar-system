@@ -67,6 +67,7 @@ jobs:
 
   docker:
     name: containerization
+    needs: [unit-testing, code-coverage,download-reports]
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
